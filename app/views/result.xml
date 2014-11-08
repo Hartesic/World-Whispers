@@ -1,0 +1,8 @@
+<Alloy>
+	<Window title="Title">
+		<Button id="back" top="0" title="< Back" textAlign="Ti.UI.TEXT_ALIGNMENT_LEFT" width="100%" height="8%"/>
+		
+		<ScrollView id="scrollView" scrollType="vertical" showVerticalScrollIndicator="true" showHorizontalScrollIndicator="false" height="92%" width="90%" top="8%" backgroundColor="red">
+        </ScrollView>
+	</Window>
+</Alloy>

@@ -1,5 +1,22 @@
 <Alloy>
-	<Window class="container">
-		<Label id="label" onClick="doClick">Hello, World</Label>
+	<Window>
+		<View width="100%" height="300">
+			<Label color="white" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER" top="30" width="75%">
+				text to translate:
+			</Label>
+			<TextField id="textField" width="75%" top="50"/>
+
+			<Label color="white" textAlign="Ti.UI.TEXT_ALIGNMENT_CENTER" top="110" width="75%">
+				base lang / run amount
+			</Label>
+
+			<Picker id="picker" selectionIndicator="true" useSpinner="true" top="140">
+				<PickerColumn id="col_lang" width="60%">
+				</PickerColumn>
+				<PickerColumn id="col_amount" width="15%">
+				</PickerColumn>
+			</Picker>
+			<Button id="runbutton" top="260" title="Run" width="75%"/>
+		</View>
 	</Window>
 </Alloy>

@@ -1,7 +1,7 @@
 /*
 ** Translator lib
 */
-var Translator = {
+var obj = {
 	langs: [
 		{
 			"language":"af",
@@ -379,4 +379,5 @@ var Translator = {
 		return translations;
 	}
 };
-exports.Translator = Translator;
+
+module.exports = obj;
