@@ -29,7 +29,7 @@ Ti.App.addEventListener('apiloaded', function(e){
 	})(core.Tool.language);
 
 	$.runbutton.addEventListener('click', function(e) { 
-		var win = core.Tool.win('result');
+		var win = core.Tool.win('result', {args1: $.textField.value, args2: $.col_lang.value, args3: $.col_amount.value});
 		win.open();
 		
 		for (var i in win.elem.children) {

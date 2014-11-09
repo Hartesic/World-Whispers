@@ -10,8 +10,8 @@ obj.prototype = {
 	'isset':function(a) { return (typeof(a) !== 'undefined' && a !== null); },
 	'win':(function() {
 		var cache = {};
-		var win = function(n) {
-			this.elem = Alloy.createController(n);
+		var win = function(n, args) {
+			typeof args === 'undefined' ? this.elem = Alloy.createController(n) : this.elem = Alloy.createController(n, args);
 		}
 		
 		win.prototype = {

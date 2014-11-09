@@ -349,17 +349,17 @@ var obj = {
 	},
 	getTranslation: function(sentence, origin_lang, target_lang){
 		var translation;
-		var url = Translator.url + Translator + key + '&source=' + origin_lang + '&target=' + target_lang + '&q=' + sentence;
-		Translator.client.open('GET', url, false);
-		Translator.client.send();
-		translation = JSON.parse(Translator.client.getResponseText()).data.translations[0].translatedText;
+		var url = obj.url + obj.key + '&prettyprint=false' + '&source=' + origin_lang + '&target=' + target_lang + '&q=' + encodeURI(sentence);
+		obj.client.open('GET', url, false);
+		obj.client.send();
+		translation = JSON.parse(obj.client.getResponseText()).data.translations[0].translatedText;
 		return translation;
 	},
 	getAllTranslations: function(sentence, lang, number){
-		var url = Translator.url + '/languages' + Translator.key + '&target=' + lang;
-		Translator.client.open('GET', url, false);
-		Translator.client.send();
-		var list = JSON.parse(Translator.client.getResponseText()).data.languages;
+		var url = obj.url + '/languages' + obj.key + '&target=' + lang + '&prettyprint=false';
+		obj.client.open('GET', url, false);
+		obj.client.send();
+		var list = JSON.parse(obj.client.getResponseText()).data.languages;
 		var origin_lang = lang;
 		do {
 			var target_lang = list.splice(getRandomIndex(list), 1).language;
