@@ -11,7 +11,7 @@ obj.prototype = {
 	'win':(function() {
 		var cache = {};
 		var win = function(n, args) {
-			typeof args === 'undefined' ? this.elem = Alloy.createController(n) : this.elem = Alloy.createController(n, args);
+			this.elem = ( (this.isset(args))? Alloy.createController(n, args) : Alloy.createController(n) );
 		}
 		
 		win.prototype = {
@@ -35,6 +35,13 @@ obj.prototype = {
 			self.loaded = true;
 			Ti.App.fireEvent('apiloaded');
 		});
+	},
+	'langcode':function(lang) {
+		for(var i in this.language) {
+			if (this.language[i].name = lang) {
+				return (this.language[i].language);
+			}
+		}
 	},
 	'reset':function() {
 		for(var i in this.elem) {

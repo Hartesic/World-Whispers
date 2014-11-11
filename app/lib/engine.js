@@ -28,7 +28,7 @@ obj.prototype = {
 	},
 	'translate':function(text, lang, callback) {
 		this.usedlang[this.usedlang.length] = this.usedlang;
-		var res = this.send(this.url, {
+		this.send(this.url, {
 			'key':this.key,
 			'source':this.translate[this.translate.length - 1].lang,
 			'target':lang,
@@ -70,7 +70,7 @@ obj.prototype = {
 	},
 	'loadlang':function(callback) {
 		if (this.lang == null) {
-			var res = this.send(
+			this.send(
 				this.url + '/languages', {
 					'key':this.key,
 					'source':this.obm.Config.baselang,
