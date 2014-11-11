@@ -11,7 +11,7 @@ $.win1.addEventListener('click', function(e) {
 
 //$.textField.addEventListener('singletap',function(){ $.textField.focus(); });
 Ti.App.addEventListener('apiloaded', function(e){
-	var info = { 'lang':'Anglais', 'num':1 };
+	var info = { 'lang':null, 'num':1 }, langindex = 0;
 	(function(lang) {
 		Ti.API.info(lang);
 		for (var i in lang) {
@@ -20,8 +20,16 @@ Ti.App.addEventListener('apiloaded', function(e){
 			if (i != 0) {
 				var elem2 = Ti.UI.createPickerRow({title:i});
 				$.col_amount.add(elem2);
+			} else {
+				info.lang = lang[i].name;
 			}
+			
+			/*if (core.Config.baselang == lang[i].language) {
+				info.lang = lang[i].name;
+				langindex = i;
+			}*/
 		}
+		//$.picker.setSelectedRow(langindex, langindex, false);
 		
 		$.picker.addEventListener('change', function(e) {
 			info = { 'lang':e.selectedValue[0], 'num':e.selectedValue[1] };
@@ -29,20 +37,11 @@ Ti.App.addEventListener('apiloaded', function(e){
 	})(core.Tool.language);
 
 	$.runbutton.addEventListener('click', function(e) {
-		var args = {
+		core.Tool.win('result', {
 			text: $.textField.value,
 			language: core.Tool.langcode(info['lang']),
 			amount: info['num']
-		};
-		var win = core.Tool.win('result', args);
-		win.open();
-		
-		for (var i in win.elem.children) {
-			Ti.API.debug(win.children[i]);
-		}
-		
-		/*var translate = new core.Engine(core, $.textField.value, info.lang, info.num);
-		core.Current = translate;*/
+		}).open();
 	});
 
 	$.index.open();

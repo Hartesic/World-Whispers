@@ -7,7 +7,6 @@ var obj = function(obm) {
 }
 
 obj.prototype = {
-	'isset':function(a) { return (typeof(a) !== 'undefined' && a !== null); },
 	'win':(function() {
 		var cache = {};
 		var win = function(n, args) {
@@ -20,16 +19,24 @@ obj.prototype = {
 				return (this);
 			}
 		}
-	
-		return (function(name, args) {
-			if ( !this.isset(cache[name]) ) {
-				cache[name] = new win(name, args);
+		
+		var name = function(n, args) {
+			var a = n;
+			for(var i in args) {
+				a += args[i];
 			}
-			return (cache[name]);
+			return (a);
+		}
+		return (function(n, args) {
+			var key = name(n, args);
+			if ( !isset(cache[key]) ) {
+				cache[key] = new win(n, args);
+			}
+			return (cache[key]);
 		});
 	})(),
 	'loadAPI':function() {
-		var api = new this.obm.Engine(this.obm, '', '', 0), self = this;
+		var api = new this.obm.Engine(this.obm, null, '', '', 0), self = this;
 		api.loadlang(function(res) {
 			self.language = res;
 			self.loaded = true;
@@ -38,7 +45,7 @@ obj.prototype = {
 	},
 	'langcode':function(lang) {
 		for(var i in this.language) {
-			if (this.language[i].name = lang) {
+			if (this.language[i].name == lang) {
 				return (this.language[i].language);
 			}
 		}
