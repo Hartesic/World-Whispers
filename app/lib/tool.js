@@ -11,7 +11,7 @@ obj.prototype = {
 	'win':(function() {
 		var cache = {};
 		var win = function(n, args) {
-			this.elem = ( (this.isset(args))? Alloy.createController(n, args) : Alloy.createController(n) );
+			this.elem = ( (isset(args))? Alloy.createController(n, args) : Alloy.createController(n) );
 		}
 		
 		win.prototype = {

@@ -1,4 +1,6 @@
 
+isset = function(a) { return ( (typeof(a) !== 'undefined')? true : false ); }
+
 var obj = {};
 
 obj.Engine = require('engine');
