@@ -13,7 +13,8 @@ $.back.addEventListener('click', function(e) {
 	$.result.close();
 });
 
-var translate = new core.Engine(core, arguments[0], arguments[1], arguments[2]);
+var args = arguments[0];
+var translate = new core.Engine(core, args.text, args.language, args.amount);
 for (var i = 0; i < translate.elems.length; i++)
 	$.scrollView.add(translate.elems[i]);
 
