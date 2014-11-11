@@ -3,6 +3,7 @@ var obj = function(obm, text, lang, num) {
 	this.obm = obm;
 	this.translate = [];
 	this.usedlang = [];
+	this.elems = [];
 	
 	if (num != 0) {
 		this.obm.Tool.reset();
@@ -40,13 +41,14 @@ obj.prototype = {
 	
 	'gendisplay':function(obj) {
 		var top = (this.translate.length * 20);
+		this.obm.elem = [];
 		
 		var elem = Ti.UI.createImageView({
 			image:'/images/myimage.png',
 			top:top, left:0,
 			width:'70%', height:20
 		});
-		$.scrollView.add(elem);
+		this.elems.push(elem);
 		this.obm.elem[this.obm.elem.length] = elem;
 	
 		var elem = Ti.UI.createLabel({
@@ -55,7 +57,7 @@ obj.prototype = {
 			top:top, left:'10%',
 			width:'70%', height:20
 		});
-		$.scrollView.add(elem);
+		this.elems.push(elem);
 		this.obm.elem[this.obm.elem.length] = elem;
 		
 		var elem = Ti.UI.createButton({
@@ -63,7 +65,7 @@ obj.prototype = {
 			top:top, left:'80%',
 			width:'20%', height:20
 		});
-		$.scrollView.add(elem);
+		this.elems.push(elem);
 		this.obm.elem[this.obm.elem.length] = elem;
 	},
 	'loadlang':function(callback) {
@@ -86,6 +88,8 @@ obj.prototype = {
 	'randlang':function() {
 		var found = false, rand = null;
 		while (!found) {
+			if (this.lang == null)
+				this.lang = [];
 			rand = this.lang[ Math.floor(Math.random() * this.lang.length) ];
 			for(var i in this.usedlang) {
 				if (this.usedlang[i] != rand.language) {
