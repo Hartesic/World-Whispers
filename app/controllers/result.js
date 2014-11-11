@@ -18,4 +18,7 @@ var translate = new core.Engine(core, args.text, args.language, args.amount);
 for (var i = 0; i < translate.elems.length; i++)
 	$.scrollView.add(translate.elems[i]);
 
+/*var win = Alloy.createController('detail', {sentence: 'Hello world!', language: 'Anglais', translation: 'Salut tout le monde !'}).getView();
+win.open();*/
+
 //$.scrollView.remove($.current);
