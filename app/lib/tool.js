@@ -21,9 +21,9 @@ obj.prototype = {
 			}
 		}
 	
-		return (function(name) {
+		return (function(name, args) {
 			if ( !this.isset(cache[name]) ) {
-				cache[name] = new win(name);
+				cache[name] = new win(name, args);
 			}
 			return (cache[name]);
 		});
