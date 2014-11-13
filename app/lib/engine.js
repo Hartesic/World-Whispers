@@ -125,7 +125,7 @@ obj.prototype = {
 		}
 		
 		var elem = Ti.UI.createButton({
-			'title':'Info >',
+			'title':'Details >',
 			'top':top, 'left':'80%',
 			'width':'20%', 'height':30,
 			'font':{'fontSize':10},
