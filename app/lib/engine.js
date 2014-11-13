@@ -19,7 +19,7 @@ obj.prototype = {
 	/*
 		run(string, string, int)
 		
-			calls it left untill int is less then or equal to 0
+			calls itself untill int is less then or equal to 0
 			arg1 is the text to translate arg2 is it's language
 		
 		return void
@@ -44,7 +44,7 @@ obj.prototype = {
 		savedata(obj)
 		
 			save the translations and the used language
-			then return it so read
+			then return it so it can be read
 		
 		return obj;
 	*/
@@ -59,7 +59,7 @@ obj.prototype = {
 	/*
 		translate(string, string, string, func)
 		
-			send out a request to the api to get a translation
+			sends out a request to the api to get a translation
 			arg1 is the text, arg2 is the language to translate to, arg3 is the source language, arg4 is the callback
 		
 		return void
@@ -198,7 +198,7 @@ obj.prototype = {
 	/*
 		API
 		
-		this is the core used to send request to the api got translations
+		this is the core used to send request to the api to get translations
 	*/
 	'url':'https://www.googleapis.com/language/translate/v2',
 	'key':'AIzaSyAq9sFTT5tNOfwxj48XRJy5INyTH92CME0',
