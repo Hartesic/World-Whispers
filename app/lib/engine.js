@@ -15,34 +15,61 @@ var obj = function(obm, view, text, lang, num) {
 }
 
 obj.prototype = {
-	'lang':[],
+	'lang':[], // static so it can be used in all instances of engine.js
+	/*
+		run(string, string, int)
+		
+			calls it left untill int is less then or equal to 0
+			arg1 is the text to translate arg2 is it's language
+		
+		return void
+	*/
 	'run':function(text, lang, num) {
-		var translation = {'text':text, 'lang':lang, 'color':( (this.startint == num)? 'green' : 'white')}, self = this;
-		this.gendisplay(translation);
-		this.translation[this.translation.length] = translation;
-		this.usedlang[this.usedlang.length] = translation.lang;
+		var translation = this.savedata({'text':text, 'lang':lang, 'color':( (this.startint == num)? 'green' : 'white')}), self = this;
 
 		var nextlang = this.randlang();
 		if (num > 0) {
-			this.translate(text, nextlang, function(res) {
+			this.translate(text, nextlang, translation.lang, function(res) {
 				Ti.API.info(res +' to '+ nextlang +' left '+ num);
 				self.run(res, nextlang, num - 1);
 			});
 		} else {
-			this.translate(text, this.baselang, function(res) {
-				var translation = {'text':res, 'lang':self.baselang, 'color':'green'}
-				self.gendisplay(translation);
-				self.translation[self.translation.length] = translation;
-				self.usedlang[self.usedlang.length] = translation.lang;
+			this.translate(text, this.baselang, translation.lang, function(res) {
+				self.savedata({'text':res, 'lang':self.baselang, 'color':'green'});
 			});
 		}
 	},
-	'translate':function(text, lang, callback) {
+	
+	/*
+		savedata(obj)
+		
+			save the translations and the used language
+			then return it so read
+		
+		return obj;
+	*/
+	'savedata':function(obj) {
+		var id = this.translation.length;
+		this.gendisplay(obj);
+		this.translation[id] = obj;
+		this.usedlang[this.usedlang.length] = obj.lang;
+		return (this.translation[id]);
+	},
+	
+	/*
+		translate(string, string, string, func)
+		
+			send out a request to the api to get a translation
+			arg1 is the text, arg2 is the language to translate to, arg3 is the source language, arg4 is the callback
+		
+		return void
+	*/
+	'translate':function(text, target, source, callback) {
 		this.usedlang[this.usedlang.length] = this.usedlang;
 		this.send(this.url, {
 			'key':this.key,
-			'source':this.translation[this.translation.length - 1].lang,
-			'target':lang,
+			'source':source,
+			'target':target,
 			'q':text,
 			'prettyprint':false,
 		}, function(res) {
@@ -50,8 +77,15 @@ obj.prototype = {
 		});
 	},
 	
+	/*
+		gendisplay(obj)
+		
+			generates the elements to add to the result.js page
+		
+		return void
+	*/
 	'gendisplay':function(obj) {
-		var height = 30, top = (this.translation.length * height);
+		var height = 30, top = (this.translation.length * height), self = this;
 		this.obm.elem = [];
 		
 		var elem = Ti.UI.createImageView({
@@ -73,6 +107,23 @@ obj.prototype = {
 		this.obm.elem[this.obm.elem.length] = elem;
 		this.view.add(elem);
 		
+		var pageinfo;
+		if (this.baselang != obj.lang) {
+			this.translate(obj.text, this.baselang, obj.lang, function(res) { 
+				pageinfo = {
+					sentence: obj.text, 
+					language: self.obm.Tool.codelang(obj.lang), 
+					translation: res
+				}
+			});
+		} else {
+			pageinfo = {
+				sentence: obj.text, 
+				language: self.obm.Tool.codelang(obj.lang), 
+				translation: obj.text,
+			}
+		}
+		
 		var elem = Ti.UI.createButton({
 			'title':'Info >',
 			'top':top, 'left':'80%',
@@ -83,8 +134,22 @@ obj.prototype = {
 		});
 		this.elem[this.elem.length] = elem;
 		this.obm.elem[this.obm.elem.length] = elem;
+		elem.addEventListener('click', function(e) {
+			if (isset(pageinfo)) {
+				self.obm.Tool.win('detail', pageinfo).open();
+			}
+		});
 		this.view.add(elem);
 	},
+	
+	/*
+		loadlang(func)
+		
+			load up the language based on the core.Config
+			called in Core.Tool main part to init the api
+		
+		return void
+	*/
 	'loadlang':function(callback) {
 		var self = this;
 		this.send(this.url + '/languages', {
@@ -100,6 +165,14 @@ obj.prototype = {
 			callback(self.lang);
 		});
 	},
+	
+	/*
+		randlang()
+		
+			get a random language that has not been used to translate to
+		
+		return string
+	*/
 	'randlang':function() {
 		var found = false, rand = null;
 		while (!found) {
@@ -122,6 +195,11 @@ obj.prototype = {
 		return (rand.language);
 	},
 	
+	/*
+		API
+		
+		this is the core used to send request to the api got translations
+	*/
 	'url':'https://www.googleapis.com/language/translate/v2',
 	'key':'AIzaSyAq9sFTT5tNOfwxj48XRJy5INyTH92CME0',
 	'send':function(url, parm, callback) {

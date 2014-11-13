@@ -1,19 +1,10 @@
 
 var core = require('core');
-/*
-$.win1.addEventListener('click', function(e) {
-	if (core.TOOL.isset('cat')) {
-		var result = Alloy.createController('result').getView();
-		result.open();
-	}
-});
-*/
 
-//$.textField.addEventListener('singletap',function(){ $.textField.focus(); });
+// hook to wait for the api to load mostly just the language to get from it
 Ti.App.addEventListener('apiloaded', function(e){
 	var info = { 'lang':null, 'num':1 }, langindex = 0;
 	(function(lang) {
-		Ti.API.info(lang);
 		for (var i in lang) {
 			var elem1 = Ti.UI.createPickerRow({title:lang[i].name});
 			$.col_lang.add(elem1);
@@ -23,19 +14,15 @@ Ti.App.addEventListener('apiloaded', function(e){
 			} else {
 				info.lang = lang[i].name;
 			}
-			
-			/*if (core.Config.baselang == lang[i].language) {
-				info.lang = lang[i].name;
-				langindex = i;
-			}*/
 		}
-		//$.picker.setSelectedRow(langindex, langindex, false);
 		
+		// hook to the picker to know what it's set to
 		$.picker.addEventListener('change', function(e) {
 			info = { 'lang':e.selectedValue[0], 'num':e.selectedValue[1] };
 		});
 	})(core.Tool.language);
 
+	// submit buttons opens the result page and starts the translations
 	$.runbutton.addEventListener('click', function(e) {
 		core.Tool.win('result', {
 			text: $.textField.value,

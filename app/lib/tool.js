@@ -7,6 +7,17 @@ var obj = function(obm) {
 }
 
 obj.prototype = {
+	/*
+		Function win( arg {} )
+		
+			a level of abstraction on controllers
+			can still get to them by obj.elem
+			
+			has a cache system no need to init 
+			controllers more then one for the same args
+		
+		return obj win
+	*/
 	'win':(function() {
 		var cache = {};
 		var win = function(n, args) {
@@ -35,6 +46,15 @@ obj.prototype = {
 			return (cache[key]);
 		});
 	})(),
+	
+	/*
+		loadAPI()
+			
+			init Engine and call the api for the language
+			fir event 'apiloaded' so index.js can open
+			
+		return void
+	*/
 	'loadAPI':function() {
 		var api = new this.obm.Engine(this.obm, null, '', '', 0), self = this;
 		api.loadlang(function(res) {
@@ -43,6 +63,14 @@ obj.prototype = {
 			Ti.App.fireEvent('apiloaded');
 		});
 	},
+	
+	/*
+		langcode(string)
+		
+			get the langage code from a name
+		
+		return (string)
+	*/
 	'langcode':function(lang) {
 		for(var i in this.language) {
 			if (this.language[i].name == lang) {
@@ -50,6 +78,29 @@ obj.prototype = {
 			}
 		}
 	},
+		
+	/*
+		codelang(string)
+		
+			get a name from a code
+		
+		return (string)
+	*/
+	'codelang':function(lang) {
+		for(var i in this.language) {
+			if (this.language[i].language == lang) {
+				return (this.language[i].name);
+			}
+		}
+	},
+	
+	/*
+		reset(string)
+		
+			delete all the elements that have been added on to result.js page
+		
+		return void
+	*/
 	'reset':function() {
 		for(var i in this.elem) {
 			var elem = this.elem[i].getParent();
