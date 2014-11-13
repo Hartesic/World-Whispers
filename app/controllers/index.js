@@ -16,13 +16,13 @@ Ti.App.addEventListener('apiloaded', function(e){
 			}
 		}
 		
-		// hook to the picker to know what it's set to
+		// hook to the picker to know what it is set to
 		$.picker.addEventListener('change', function(e) {
 			info = { 'lang':e.selectedValue[0], 'num':e.selectedValue[1] };
 		});
 	})(core.Tool.language);
 
-	// submit buttons opens the result page and starts the translations
+	// submit button opens the result page and starts the translations
 	$.runbutton.addEventListener('click', function(e) {
 		core.Tool.win('result', {
 			text: $.textField.value,

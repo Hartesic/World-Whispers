@@ -14,7 +14,7 @@ obj.prototype = {
 			can still get to them by obj.elem
 			
 			has a cache system no need to init 
-			controllers more then one for the same args
+			multiple controllers more than once for the same args
 		
 		return obj win
 	*/
@@ -50,8 +50,8 @@ obj.prototype = {
 	/*
 		loadAPI()
 			
-			init Engine and call the api for the language
-			fir event 'apiloaded' so index.js can open
+			init Engine and call the api for the languages
+			fires event 'apiloaded' so index.js can open
 			
 		return void
 	*/
@@ -67,7 +67,7 @@ obj.prototype = {
 	/*
 		langcode(string)
 		
-			get the langage code from a name
+			get the language code from a name
 		
 		return (string)
 	*/
@@ -82,7 +82,7 @@ obj.prototype = {
 	/*
 		codelang(string)
 		
-			get a name from a code
+			get a name from a language code
 		
 		return (string)
 	*/
@@ -97,7 +97,7 @@ obj.prototype = {
 	/*
 		reset(string)
 		
-			delete all the elements that have been added on to result.js page
+			deletes all the elements that have been added on to result.js page
 		
 		return void
 	*/
